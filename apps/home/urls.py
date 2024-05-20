@@ -32,7 +32,10 @@ urlpatterns = [
     path('students/upload', views.Upload_Students, name='upload_students'),
     path('sponsor/get_email/<int:id>', views.get_sponsor_email, name='get-sponsor-email'),
     path('sponsor/get_email/', views.get_sponsor_email, name='get-sponsor-email'),
-    path('sponsorships.html', views.Sponsorships, name='get-sponsor-email'),
+    path('sponsorships.html', views.Sponsorships, name='get-sponsor-email'), 
+    path('create/', views.FunkyCreate.as_view(), name='create'),
+    path('update/', views.FunkyUpdate.as_view(), name='update'),
+    path('table', views.FunkyUpdate.as_view(), name='update'),
 
 
     # REMOVE IN PRODUCTION, FOR TESTING ONLY

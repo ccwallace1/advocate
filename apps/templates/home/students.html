@@ -59,7 +59,7 @@
                                                         <tr>
                                                             <th scope="row">{{i.id}}</th>
                                                             <td><a href="student/{{i.id}}">{{i.name}}</a></td>
-                                                            {% for s in i.sponsor.all %}
+                                                            {% for s in i.donor_set %}
                                                                 <td>{{s}}</td>
                                                             {% empty %}
                                                                 <td>-</td>

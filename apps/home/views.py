@@ -576,6 +576,68 @@ def Donation_Delete(request, id):
     donation.delete()
     return HttpResponseRedirect("../../donations.html")
 
+class FunkyCreate(HotView):
+    # Define model to be used by the view
+    model = Donor
+    # Define template
+    template_name = 'home/create.html'
+    # Define custom characters/strings for checked/unchecked checkboxes
+    checkbox_checked = 'yes' # default: true
+    checkbox_unchecked = 'no' # default: false
+    # Define prefix for the formset which is constructed from Handsontable spreadsheet on submission
+    prefix = 'table'
+    # Define success URL
+    success_url = reverse_lazy('update')
+    # Define fields to be included as columns into the Handsontable spreadsheet
+    fields = (
+        'name',
+        'group',
+        'email',
+        'address',
+        'phone',
+        'date_of_birth',
+    )
+    # Define extra formset factory kwargs
+    factory_kwargs = {
+        'widgets': {
+            'date_of_birth': DateInput(attrs={'type': 'date'}),
+        }
+    }
+    # Define Handsontable settings as defined in Handsontable docs
+    hot_settings = {
+        'contextMenu': 'true',
+        'autoWrapRow': 'true',
+        'rowHeaders': 'true',
+        'contextMenu': 'true',
+        'search': 'true',
+        # When value is dictionary don't wrap it in quotes
+        'headerTooltips': {
+            'rows': 'false',
+            'columns': 'true'
+        },
+        # When value is list don't wrap it in quotes
+        'dropdownMenu': [
+            'remove_col',
+            '---------',
+            'make_read_only',
+            '---------',
+            'alignment'
+        ],
+        'licenseKey': 'non-commercial-and-evaluation',
+    }
+
+
+class FunkyUpdate(FunkyCreate):
+  template_name = 'home/update.html'
+  # Define 'update' action
+  action = 'update'
+  # Define 'update' button
+  button_text = 'Update'
+  hot_settings = {
+      'licenseKey': 'non-commercial-and-evaluation',
+  }
+ 
+
 #from top solution here: https://stackoverflow.com/questions/4039879/best-way-to-find-the-months-between-two-dates
 def diff_month(d1, d2):
     return (d1.year - d2.year) * 12 + d1.month - d2.month
