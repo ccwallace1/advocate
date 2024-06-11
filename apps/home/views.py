@@ -374,10 +374,14 @@ def Group_Detail(request, id):
 @login_required(login_url="/login/")
 def Sponsor_Detail(request, id):
     donor = Donor.objects.get(id=id)
+    hasActiveSponsorships = False
     template = loader.get_template('home/sponsor.html')
-    sponsorships = Sponsorship.objects.filter(donor=donor)
+    sponsorships = Sponsorship.objects.filter(sponsor=donor)
     donations = Donation.objects.filter(donor=donor)
 
+    for s in sponsorships:
+        if s.isActive:
+            hasActiveSponsorships = True
 
     # TODO: fix address updating... currently, it just creates an entirely new record in address table
     if request.method == 'POST':
@@ -396,11 +400,15 @@ def Sponsor_Detail(request, id):
         donorform = DonorForm(instance=donor, initial=initial_data)
 
     context = {
+        'sponsorshipStatus':hasActiveSponsorships,
         'sponsor':donor,
         'donations':donations,
         'sponsorships': sponsorships,
         'form': donorform,
     }
+
+    
+    
     return HttpResponse(template.render(context, request))
 
 @login_required(login_url="/login/")
@@ -628,7 +636,7 @@ class FunkyCreate(HotView):
 
 
 class FunkyUpdate(FunkyCreate):
-  template_name = 'home/update.html'
+  template_name = 'home/datatable.html'
   # Define 'update' action
   action = 'update'
   # Define 'update' button

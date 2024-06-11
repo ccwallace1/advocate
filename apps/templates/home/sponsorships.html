@@ -60,8 +60,8 @@
                                                             <tr>
                                                                 <th scope="row">{{i.id}}</th>
                                                                 <td>{{i.begin_date}}</td>
-                                                                {% if i.donor.all %}    
-                                                                  {% for d in i.donor.all %}
+                                                                {% if i.sponsor.all %}    
+                                                                  {% for d in i.sponsor.all %}
                                                                     <td>{{ d }}</td>
                                                                   {% endfor%}
                                                                 {% else %}

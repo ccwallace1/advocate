@@ -72,11 +72,11 @@
                                     <div class="col-xl-12">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h5>Sponsorships</h5>
+                                                <h5>Active Sponsorships</h5>
                                             </div>
                                             <div class="card-block table-border-style">
                                                 <div class="table-responsive">
-                                                    {% if sponsorships %}
+                                                    {% if sponsorshipStatus %}
                                                         <table class="table table-striped">
                                                             <thead>
                                                                 <tr>
@@ -89,6 +89,7 @@
                                                             <tbody>
 
                                                                 {% for sponsorship in sponsorships %}
+                                                                    
                                                                     <tr>
                                                                         <th scope="row"><a href="../sponsorship/{{sponsorship.id}}">{{sponsorship.id}}</a></th>
                                                                         <td>{{sponsorship.begin_date}}</td>
@@ -105,12 +106,59 @@
                                                                     
                                                                     </tr>
                                                                 {% endfor %}
-            
                                                             </tbody>
                                                         </table>
                                                     {% else %}
-                                                        No sponsorships associated. 
-                                                    {% endif %}
+                                                        It looks like {% sponsor.id %} 
+                                                    {% endif%}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>Past Sponsorships</h5>
+                                            </div>
+                                            <div class="card-block table-border-style">
+                                                <div class="table-responsive">
+                                                    {% if sponsorships %}
+                                                        {% if sponsorship.isActive is false %}
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Sponsorship ID</th>
+                                                                        <th>Begin Date</th>
+                                                                        <th>Beneficiary</th>
+                                                                        <th>Payment Interval</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    {% for sponsorship in sponsorships %}
+                                                                        <tr>
+                                                                            <th scope="row"><a href="../sponsorship/{{sponsorship.id}}">{{sponsorship.id}}</a></th>
+                                                                            <td>{{sponsorship.begin_date}}</td>
+                                                                            <td>{{sponsorship.beneficiary}}</td>
+                                                                            {% if sponsorship.payment_interval == 1 %}
+                                                                                <td>Monthly</td>
+                                                                            {% elif sponsorship.payment_interval == 3 %}
+                                                                                <td>Quarterly</td>
+                                                                            {% elif sponsorship.payment_interval == 6 %}
+                                                                                <td>Biannual</td>
+                                                                            {% elif sponsorship.payment_interval == 12 %}
+                                                                                <td>Yearly</td>
+                                                                            {%endif%}
+                                                                        
+                                                                        </tr>
+                                                                    {% endfor %}
+                
+                                                                </tbody>
+                                                            </table>
+                                                        {% else %}
+                                                            No past sponsorships could be found. 
+                                                        {% endif %}
+                                                        {% endif%}
+
+                                                        
                                                 </div>
                                             </div>
                                         </div>

@@ -25,7 +25,7 @@ PAYMENT_CHOICES = (
 class Person(models.Model):
     name = models.CharField(max_length=70)
     date_of_birth = models.DateField(blank=True, null=True)
-    email = models.EmailField(max_length=254, blank=True)
+    email = models.EmailField(max_length=254, blank=True, null=True)
     address = models.TextField(blank=True)
     phone = models.CharField(max_length=25, blank=True)
 
@@ -57,14 +57,6 @@ class SponsorshipType(models.Model):
     def __str__(self):
         return self.name
     
-class Donor(Person):
-    #sponsorships = models.ManyToManyField(Sponsorship, blank=True)
-    group = models.ForeignKey(Group, on_delete=models.SET_NULL, blank=True, null=True)
-    #donations = GenericRelation(Donation, related_query_name='donations')
-    
-
-    def __str__(self):
-        return self.name
     
 class Beneficiary(Person):
     enroll_date = models.DateField(null=True)
@@ -73,31 +65,28 @@ class Beneficiary(Person):
 
     def __str__(self):
         return self.name
+class Donor(Person):
+    #sponsorships = models.ForeignKey(Sponsorship, on_delete=models.SET_NULL, blank=True, null=True)
+    group = models.ForeignKey(Group, on_delete=models.SET_NULL, blank=True, null=True)
+    #donations = GenericRelation(Donation, related_query_name='donations')
+    
 
+    def __str__(self):
+        return self.name
+    
+    
 class Sponsorship(models.Model):
     type = models.ForeignKey(SponsorshipType, on_delete=models.SET_NULL, null=True)
+    isActive = models.BooleanField()
     begin_date = models.DateField(blank=True)
     end_date = models.DateField(blank=True, null=True)
     payment_interval = models.IntegerField(choices=PAYMENT_INTERVALS, default='Monthly')
     additional_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    donor = models.ManyToManyField(Donor)
+    sponsor = models.ForeignKey(Donor, on_delete=models.CASCADE, null=True)
     beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE )
     # TODO: add status field?
-
-    @property
-    def total_cost(self):
-        return self.type.cost + self.additional_cost
-    
-    @property
-    def is_active(self):
-        #calculate dates to see if active or in the past?
-        # or do we just need to check if end_date is null?
-        if(self.end_date is None):
-            return False
-        else:
-            return True
-    
-
+    def __str__(self):
+        return self.beneficiary.name
 
 
 
