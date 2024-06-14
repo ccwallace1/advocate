@@ -17,23 +17,38 @@
                         <div class="page-wrapper">
                             <!-- [ Main Content ] start -->
                             <div class="row">
-                                <div class="col-sm-8">
+                                <div class="col-xl-12">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5>Edit Donor</h5>
+                                            <h5>Edit Donor - {{sponsor}}</h5>
                                         </div>
                                         <div class="card-block">
-                                            <div class="row">
-
+                                            <div class="">
+                                                
                                                 <form action="{{sponsor.id}}" method="POST">
                                                     {% csrf_token %}
-                                                    {{form.as_p}}
-                                                    <input type="submit" value="Submit">
+
+                                                    {% for field in form %}
+
+                                                    <div class="form-group">
+                                                        {{ field.label_tag }}
+                                                        {{ field.errors }}
+                                                        {{ field }}
+                                                        {% if field.help_text %}
+                                                        <p class="help" id="{{ field.auto_id }}_helptext">
+                                                            {{ field.help_text|safe }}
+                                                        </p>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    {% endfor %}
+                                                    <input type="submit" value="Submit" class='btn btn-info'>
                                                 </form>
 
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                     <div class="col-xl-12">
                                         <div class="card">
                                             <div class="card-header">
@@ -45,7 +60,7 @@
                                                     <table class="table table-striped">
                                                         <thead>
                                                             <tr>
-                                                                <th>Donation ID</th>
+                                                                <th>ID</th>
                                                                 <th>Date</th>
                                                                 <th>Purpose</th>
                                                                 <th>Amount</th>
@@ -56,7 +71,7 @@
                                                                 <tr>
                                                                     <th scope="row"><a href="../donation/{{donation.id}}">{{donation.id}}</a></th>
                                                                     <td>{{donation.date}}</td>
-                                                                    <td>{{donation.beneficiary}}</td>
+                                                                    <td><a href="../student/{{donation.beneficiary.id}}">{{donation.beneficiary}}</a></td>
                                                                     <td>{{donation.amount}}</td>
                                                                 </tr>
                                                             {% endfor %}
@@ -80,7 +95,7 @@
                                                         <table class="table table-striped">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Sponsorship ID</th>
+                                                                    <th>ID</th>
                                                                     <th>Begin Date</th>
                                                                     <th>Beneficiary</th>
                                                                     <th>Payment Interval</th>
@@ -91,53 +106,10 @@
                                                                 {% for sponsorship in sponsorships %}
                                                                     
                                                                     <tr>
-                                                                        <th scope="row"><a href="../sponsorship/{{sponsorship.id}}">{{sponsorship.id}}</a></th>
-                                                                        <td>{{sponsorship.begin_date}}</td>
-                                                                        <td>{{sponsorship.beneficiary}}</td>
-                                                                        {% if sponsorship.payment_interval == 1 %}
-                                                                            <td>Monthly</td>
-                                                                        {% elif sponsorship.payment_interval == 3 %}
-                                                                            <td>Quarterly</td>
-                                                                        {% elif sponsorship.payment_interval == 6 %}
-                                                                            <td>Biannual</td>
-                                                                        {% elif sponsorship.payment_interval == 12 %}
-                                                                            <td>Yearly</td>
-                                                                        {%endif%}
-                                                                    
-                                                                    </tr>
-                                                                {% endfor %}
-                                                            </tbody>
-                                                        </table>
-                                                    {% else %}
-                                                        It looks like {% sponsor.id %} 
-                                                    {% endif%}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5>Past Sponsorships</h5>
-                                            </div>
-                                            <div class="card-block table-border-style">
-                                                <div class="table-responsive">
-                                                    {% if sponsorships %}
-                                                        {% if sponsorship.isActive is false %}
-                                                            <table class="table table-striped">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Sponsorship ID</th>
-                                                                        <th>Begin Date</th>
-                                                                        <th>Beneficiary</th>
-                                                                        <th>Payment Interval</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-
-                                                                    {% for sponsorship in sponsorships %}
-                                                                        <tr>
+                                                                        {% if sponsorship.isActive %}
                                                                             <th scope="row"><a href="../sponsorship/{{sponsorship.id}}">{{sponsorship.id}}</a></th>
                                                                             <td>{{sponsorship.begin_date}}</td>
-                                                                            <td>{{sponsorship.beneficiary}}</td>
+                                                                            <td><a href="../student/{{ sponsorship.beneficiary.id }}">{{sponsorship.beneficiary}}</a></td>
                                                                             {% if sponsorship.payment_interval == 1 %}
                                                                                 <td>Monthly</td>
                                                                             {% elif sponsorship.payment_interval == 3 %}
@@ -147,18 +119,59 @@
                                                                             {% elif sponsorship.payment_interval == 12 %}
                                                                                 <td>Yearly</td>
                                                                             {%endif%}
-                                                                        
-                                                                        </tr>
-                                                                    {% endfor %}
-                
-                                                                </tbody>
-                                                            </table>
-                                                        {% else %}
-                                                            No past sponsorships could be found. 
-                                                        {% endif %}
-                                                        {% endif%}
+                                                                        {% endif %}
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    {% else %}
+                                                        It looks like {{ sponsor }} has no active sponsorships.
+                                                    {% endif%}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5>Inactive Sponsorships</h5>
+                                            </div>
+                                            <div class="card-block table-border-style">
+                                                <div class="table-responsive">
+                                                    {% if sponsorships %}
+                                                        <table class="table table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID</th>
+                                                                    <th>Begin Date</th>
+                                                                    <th>Beneficiary</th>
+                                                                    <th>Payment Interval</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
 
-                                                        
+                                                                {% for sponsorship in sponsorships %}
+                                                                    <tr>
+                                                                        {% if sponsorship.isActive is False %}
+                                                                            <th scope="row"><a href="../sponsorship/{{sponsorship.id}}">{{sponsorship.id}}</a></th>
+                                                                            <td>{{sponsorship.begin_date}}</td>
+                                                                            <td><a href="../student/{{sponsorship.beneficiary.id}}">{{sponsorship.beneficiary}}</a></td>
+                                                                            {% if sponsorship.payment_interval == 1 %}
+                                                                                <td>Monthly</td>
+                                                                            {% elif sponsorship.payment_interval == 3 %}
+                                                                                <td>Quarterly</td>
+                                                                            {% elif sponsorship.payment_interval == 6 %}
+                                                                                <td>Biannual</td>
+                                                                            {% elif sponsorship.payment_interval == 12 %}
+                                                                                <td>Yearly</td>
+                                                                            {%endif%}
+                                                                        {% endif %}
+                                                                    </tr>
+                                                                {% endfor %}
+            
+                                                            </tbody>
+                                                        </table>
+                                                    {% else %}
+                                                        It looks like {{ sponsor }} has no inactive sponsorships.
+                                                    {% endif%} 
                                                 </div>
                                             </div>
                                         </div>

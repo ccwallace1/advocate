@@ -33,7 +33,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-danger" title="" data-toggle="modal" data-original-title="Delete this sponsor" data-target="#studentModal" aria-describedby="Delete this student">Delete Student</button>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="card">
@@ -52,6 +51,100 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Active Sponsorships</h5>
+                                    </div>
+                                    <div class="card-block table-border-style">
+                                        <div class="table-responsive">
+                                            {% if sponsorshipStatus %}
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Begin Date</th>
+                                                            <th>Sponsor</th>
+                                                            <th>Payment Interval</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        {% for sponsorship in sponsorships %}
+                                                            
+                                                            <tr>
+                                                                {% if sponsorship.isActive %}
+                                                                    <th scope="row"><a href="../sponsorship/{{sponsorship.id}}">{{sponsorship.id}}</a></th>
+                                                                    <td>{{sponsorship.begin_date}}</td>
+                                                                    <td><a href="../sponsor/{{sponsorship.sponsor.id}}"> {{sponsorship.sponsor}}</a></td>
+                                                                    {% if sponsorship.payment_interval == 1 %}
+                                                                        <td>Monthly</td>
+                                                                    {% elif sponsorship.payment_interval == 3 %}
+                                                                        <td>Quarterly</td>
+                                                                    {% elif sponsorship.payment_interval == 6 %}
+                                                                        <td>Biannual</td>
+                                                                    {% elif sponsorship.payment_interval == 12 %}
+                                                                        <td>Yearly</td>
+                                                                    {%endif%}
+                                                                {% endif %}
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            {% else %}
+                                                It looks like {{ student }} has no active sponsorships.
+                                            {% endif%}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Inactive Sponsorships</h5>
+                                    </div>
+                                    <div class="card-block table-border-style">
+                                        <div class="table-responsive">
+                                            {% if sponsorships %}
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>ID</th>
+                                                                <th>Begin Date</th>
+                                                                <th>Sponsor</th>
+                                                                <th>Payment Interval</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            {% for sponsorship in sponsorships %}
+                                                                <tr>
+                                                                    {% if sponsorship.isActive is False %}
+                                                                        <th scope="row"><a href="../sponsorship/{{sponsorship.id}}">{{sponsorship.id}}</a></th>
+                                                                        <td>{{sponsorship.begin_date}}</td>
+                                                                        <td><a href="../sponsor/{{sponsorship.sponsor.id}}"> {{sponsorship.sponsor}}</a></td>
+                                                                        {% if sponsorship.payment_interval == 1 %}
+                                                                            <td>Monthly</td>
+                                                                        {% elif sponsorship.payment_interval == 3 %}
+                                                                            <td>Quarterly</td>
+                                                                        {% elif sponsorship.payment_interval == 6 %}
+                                                                            <td>Biannual</td>
+                                                                        {% elif sponsorship.payment_interval == 12 %}
+                                                                            <td>Yearly</td>
+                                                                        {%endif%}
+                                                                    {% endif %}
+                                                                </tr>
+                                                            {% endfor %}
+        
+                                                        </tbody>
+                                                    </table>
+                                                
+                                                {% endif%}
+
+                                                
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-danger" title="" data-toggle="modal" data-original-title="Delete this sponsor" data-target="#studentModal" aria-describedby="Delete this student">Delete Student</button>
                             </div>
                             <!-- [ Main Content ] end -->
                         </div>

@@ -24,10 +24,10 @@ PAYMENT_CHOICES = (
 
 class Person(models.Model):
     name = models.CharField(max_length=70)
-    date_of_birth = models.DateField(blank=True, null=True)
     email = models.EmailField(max_length=254, blank=True, null=True)
     address = models.TextField(blank=True)
     phone = models.CharField(max_length=25, blank=True)
+    date_of_birth = models.DateField(blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -74,6 +74,14 @@ class Donor(Person):
     def __str__(self):
         return self.name
     
+    @property
+    def isSponsor(self):
+        for i in self.sponsorship_set.all():
+            if i.isActive:
+                return True
+    
+        return False
+    
     
 class Sponsorship(models.Model):
     type = models.ForeignKey(SponsorshipType, on_delete=models.SET_NULL, null=True)
@@ -83,7 +91,7 @@ class Sponsorship(models.Model):
     payment_interval = models.IntegerField(choices=PAYMENT_INTERVALS, default='Monthly')
     additional_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     sponsor = models.ForeignKey(Donor, on_delete=models.CASCADE, null=True)
-    beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE )
+    beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE)
     # TODO: add status field?
     def __str__(self):
         return self.beneficiary.name

@@ -55,19 +55,19 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {% for i in students %}
+                                                        {% for student in students %}
                                                         <tr>
-                                                            <th scope="row">{{i.id}}</th>
-                                                            <td><a href="student/{{i.id}}">{{i.name}}</a></td>
-                                                            {% for s in i.donor_set %}
+                                                            <th scope="row">{{student.id}}</th>
+                                                            <td><a href="student/{{student.id}}">{{student.name}}</a></td>
+                                                            {% for s in student.donor_set %}
                                                                 <td>{{s}}</td>
                                                             {% empty %}
                                                                 <td>-</td>
                                                             {% endfor %}
-                                                            <td>{{i.program}}</td>
-                                                            <td>{{i.community}}</td>
-                                                            <td>{{i.grade}}</td>
-                                                            <td>{{i.enroll_date}}</td>
+                                                            <td>{{student.program}}</td>
+                                                            <td>{{student.community}}</td>
+                                                            <td>{{student.grade}}</td>
+                                                            <td>{{student.enroll_date}}</td>
                                                         </tr>
                                                         {% endfor %}
                                                     </tbody>

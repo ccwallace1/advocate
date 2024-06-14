@@ -46,6 +46,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Sponsorship ID</th>
+                                                            <th>Status</th>
                                                             <th>Begin Date</th>
                                                             <th>Sponsor</th>
                                                             <th>Student</th>
@@ -59,6 +60,7 @@
 
                                                             <tr>
                                                                 <th scope="row">{{i.id}}</th>
+                                                                <td>{{i.isActive}}</td>
                                                                 <td>{{i.begin_date}}</td>
                                                                 {% if i.sponsor.all %}    
                                                                   {% for d in i.sponsor.all %}

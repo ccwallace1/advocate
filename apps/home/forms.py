@@ -13,6 +13,16 @@ class DonorForm(ModelForm):
         model = Donor
         fields = "__all__"
 
+    name            = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name', 'class':'form-control'}))
+    group = forms.ModelChoiceField(queryset=Group.objects.all(), widget=forms.Select(attrs={'class': 'custom-select'}))
+    email           = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':'Email', 'class':'form-control', 'type':'email'}))
+    address         = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Address', 'class':'form-control .'}))
+    phone           = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Phone', 'class':'form-control'}))
+    date_of_birth   = forms.DateField(widget=forms.DateInput(attrs={'placeholder': 'Date of Birth', 'class':'form-control', 'type':'date'}))
+
+
+    
+
 class StudentForm(ModelForm):
     class Meta:
         model = Beneficiary

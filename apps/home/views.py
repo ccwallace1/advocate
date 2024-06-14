@@ -385,8 +385,11 @@ def Sponsor_Detail(request, id):
 
     # TODO: fix address updating... currently, it just creates an entirely new record in address table
     if request.method == 'POST':
+
         form = DonorForm(request.POST, instance=donor)
+        
         if form.is_valid():
+                    
             form.save()
             return HttpResponseRedirect('../sponsors.html')
     else:
@@ -442,7 +445,13 @@ def Sponsorship_Detail(request, id):
 @login_required(login_url="/login/")
 def Student_Detail(request, id):
     student = Beneficiary.objects.get(id=id)
+    hasActiveSponsorships = False
+    sponsorships = Sponsorship.objects.filter(beneficiary=student)
     template = loader.get_template('home/student.html')
+
+    for s in sponsorships:
+        if s.isActive:
+            hasActiveSponsorships = True
 
     if request.method == 'POST':
         form = StudentForm(request.POST, instance=student)
@@ -453,6 +462,8 @@ def Student_Detail(request, id):
         form = StudentForm(instance=student)
 
     context = {
+        'sponsorshipStatus': hasActiveSponsorships,
+        'sponsorships':sponsorships,
         'student':student,
         'form': form,
     }

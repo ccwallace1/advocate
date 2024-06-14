@@ -21,12 +21,12 @@
                     <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-clipboard"></i></span><span
                             class="pcoded-mtext">Dashboard</span></a>
                 </li>                
-                <li data-username="data table" 
-                    class="nav-item {% if 'index' in segment %} active {% endif %}">
+                {%comment%}<li data-username="data table" 
+                    class="nav-item {% if 'table' in segment %} active {% endif %}">
                     <a href="/table" class="nav-link "><span class="pcoded-micon"><i class="feather icon-clipboard"></i></span><span
                             class="pcoded-mtext">Data Table</span></a>
                 </li>                
-                {% comment %} <li class="nav-item pcoded-menu-caption">
+                 <li class="nav-item pcoded-menu-caption">
                     <label>Program Management</label>
                 </li>
                 <li data-username="basic components Button Alert Badges breadcrumb Paggination progress Tooltip popovers Carousel Cards Collapse Tabs pills Modal Grid System Typography Extra Shadows Embeds"
@@ -50,33 +50,33 @@
                     <label>Program Management</label>
                 </li>
                 <li data-username="form elements advance componant validation masking wizard picker select"
-                    class="nav-item {% if 'form_elements' in segment %} active {% endif %}">
+                    class="nav-item {% if 'donations' in segment %} active {% endif %}">
                     <a href="/donations.html" class="nav-link "><span class="pcoded-micon"><i
                             class="feather icon-credit-card"></i></span><span
                             class="pcoded-mtext">Donations</span></a>
                 </li>
                 <li data-username="Table bootstrap datatable footable" 
-                    class="nav-item {% if 'tbl_bootstrap' in segment %} active {% endif %}">
+                    class="nav-item {% if 'sponsors.' in segment %} active {% endif %}">
                     <a href="/sponsors.html" class="nav-link "><span class="pcoded-micon"><i
-                            class="feather icon-users"></i></span><span class="pcoded-mtext">Sponsors</span></a>
+                            class="feather icon-users"></i></span><span class="pcoded-mtext">Donors</span></a>
                 </li>
                 <li data-username="Table bootstrap datatable footable" 
-                    class="nav-item {% if 'tbl_bootstrap' in segment %} active {% endif %}">
+                    class="nav-item {% if 'students' in segment %} active {% endif %}">
                     <a href="/students.html" class="nav-link "><span class="pcoded-micon"><i
                             class="feather icon-zap"></i></span><span class="pcoded-mtext">Students</span></a>
                 
                             <li data-username="Table bootstrap datatable footable" 
-                    class="nav-item {% if 'tbl_bootstrap' in segment %} active {% endif %}">
+                    class="nav-item {% if 'sponsorships' in segment %} active {% endif %}">
                     <a href="/sponsorships.html" class="nav-link "><span class="pcoded-micon"><i
                             class="feather icon-zap"></i></span><span class="pcoded-mtext">Sponsorships</span></a>
                 </li>
                 <li data-username="Table bootstrap datatable footable" 
-                    class="nav-item {% if 'tbl_bootstrap' in segment %} active {% endif %}">
+                    class="nav-item {% if 'programs' in segment %} active {% endif %}">
                     <a href="/programs.html" class="nav-link "><span class="pcoded-micon"><i
                             class="feather icon-book"></i></span><span class="pcoded-mtext">Programs &amp; Projects</span></a>
                 </li>
                 <li data-username="Table bootstrap datatable footable" 
-                    class="nav-item {% if 'tbl_bootstrap' in segment %} active {% endif %}">
+                    class="nav-item {% if 'groups' in segment %} active {% endif %}">
                     <a href="/groups.html" class="nav-link "><span class="pcoded-micon"><i
                             class="feather icon-home"></i></span><span class="pcoded-mtext">Groups</span></a>
                 </li>
@@ -95,13 +95,13 @@
                 </li> {% endcomment %}
                 
                 <li data-username="form elements advance componant validation masking wizard picker select"
-                    class="nav-item {% if 'form_elements' in segment %} active {% endif %}">
+                    class="nav-item {% if 'overfunded' in segment %} active {% endif %}">
                     <a href="/overfunded.html" class="nav-link "><span class="pcoded-micon"><i
                             class="feather icon-trending-up"></i></span><span
                             class="pcoded-mtext">Overfunded</span></a>
                 </li>
                 <li data-username="Table bootstrap datatable footable" 
-                    class="nav-item {% if 'tbl_bootstrap' in segment %} active {% endif %}">
+                    class="nav-item {% if 'underfunded' in segment %} active {% endif %}">
                     <a href="/underfunded.html" class="nav-link "><span class="pcoded-micon"><i
                             class="feather icon-trending-down"></i></span><span class="pcoded-mtext">Underfunded</span></a>
                 </li>
@@ -138,7 +138,7 @@
                 <li class="nav-item pcoded-menu-caption">
                     <label>Admin</label>
                 </li>   
-                <li data-username="Setup Page" class="nav-item ">
+                <li data-username="Setup Page" class="nav-item {% if 'setup' in segment %} active {% endif %} ">
                     <a href="/setup.html" class="nav-link">
                         <span class="pcoded-micon">
                             <i class="feather icon-settings"></i>

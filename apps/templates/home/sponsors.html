@@ -19,16 +19,16 @@
                             <div class="row align-items-center">
                                 <div class="col-md-12">
                                     <div class="page-header-title">
-                                        <h5 class="m-b-10">Sponsors</h5>
+                                        <h5 class="m-b-10">Donors</h5>
                                     </div>
                                     <ul class="breadcrumb">
                                         <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
-                                        <li class="breadcrumb-item"><a href="#!">Sponsors</a></li>
-                                        <li class="breadcrumb-item"><a href="javascript:">All Sponsors</a></li>
+                                        <li class="breadcrumb-item"><a href="#!">Donors</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">All Donors</a></li>
                                     </ul>
                                     <button type="button" class="btn btn-primary" title="" data-toggle="modal" data-original-title="Import Payments from Excel" data-target="#importSponsors" aria-describedby="Import Payments from Excel">Import</button>
                                     
-                                    <button type="button" class="btn btn-primary" title="" data-toggle="modal" data-original-title="Add a sponsor" data-target="#sponsorModal" aria-describedby="Import Payments from Excel">Add Sponsor</button>
+                                    <button type="button" class="btn btn-primary" title="" data-toggle="modal" data-original-title="Add a sponsor" data-target="#sponsorModal" aria-describedby="Import Payments from Excel">Add Donor</button>
                                     
                                 </div>
                             </div>
@@ -47,7 +47,8 @@
                                                 <table class="table table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th>Sponsor ID</th>
+                                                            <th>Donor ID</th>
+                                                            <th>Sponsor</th>
                                                             <th>Name</th>
                                                             <th>Email</th>
                                                             <th>Phone</th>
@@ -60,14 +61,20 @@
 		
                                                             <div id="donors">
                                                                 {% for i in donors %}
-                                                                <tr>
+                                                                <tr id="table-{{i.id}}" style="cursor: pointer;">
                                                                     <th scope="row">{{i.id}}</th>
-                                                                    {% comment %} <td><button type="button" style="padding: 5px 5px 5px 4px;"class="btn btn-sqaure btn-outline-primary f-10 feather icon-mail" data-toggle="modal" data-target="#emailModal"></button></td> {% endcomment %}
-                                                                    
-                                                                    {% comment %} <td><a style="padding: 5px 5px 5px 4px;" class="btn btn-sqaure btn-outline-primary f-10 feather icon-mail open-modal-for-caleb-email" id="open-modal" data-url="{% url 'get-sponsor-email' id=i.id %}"></a></td> {% endcomment %}
-                                                                    <td><a href="sponsor/{{i.id}}" >{{i.name}}</a></td>
-                                                                    
-                                                                    
+
+                                                                    {% if i.isSponsor is True %}
+                                                                      <td><span class="pcoded-micon"><i
+                                                                        class="feather icon-check btn-outline-success"></i></span></td>
+                                                                      
+                                                                    {%else %}
+                                                                      <td><span class="pcoded-micon"><i
+                                                                        class="feather icon-x btn-outline-secondary"></i></span></td>
+                                                                    {% endif%}
+                                                              
+                                                                    <td>{{i.name}}</td>
+
                                                                     {% if i.email == '' %}
                                                                     <td>-</td>
                                                                     {% else %}
@@ -85,9 +92,16 @@
                                                                     {% else %}
                                                                     <td>{{i.address}}</td>
                                                                     {% endif %}
-                                                                    <td><a href="mailto: {{i.email}}" style="padding: 5px 5px 5px 4px;" class="btn btn-sqaure btn-outline-primary f-10 feather icon-mail"></a></td>
+                                                                  {% comment %}  <td><a href="mailto: {{i.email}}" style="padding: 5px 5px 5px 4px;" class="btn btn-sqaure btn-outline-primary f-10 feather icon-mail"></a></td>{% endcomment%}
 
-                                                                </tr>
+                                                                      </tr>
+                                                                <script>
+                                                                  {% comment %}This is a little jank :/ {% endcomment%}
+                                                                  const row{{i.id}} = document.getElementById(`table-{{i.id}}`);
+                                                                  row{{i.id}}.addEventListener("click", () => {
+                                                                    window.location.href = `/sponsor/{{i.id}}`;
+                                                                  });
+                                                                </script>
                                                                 {% endfor %}	
                                                             </div>
                                                         </div>
@@ -150,7 +164,7 @@
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="sponsorModalLabel">Add Sponsor</h5>
+                          <h5 class="modal-title" id="sponsorModalLabel">Add Donor</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -174,7 +188,7 @@
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="importSponsors">Import Sponsor Records</h5>
+                          <h5 class="modal-title" id="importSponsors">Import Donor Records</h5>
                           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -249,5 +263,5 @@
         $("#myEdit").modal();
       }
     });
-  });
-</script>{% endblock javascripts %}
+  });</script>
+  {% endblock javascripts %}
