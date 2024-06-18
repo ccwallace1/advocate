@@ -17,7 +17,7 @@
                         <div class="page-wrapper">
                             <!-- [ Main Content ] start -->
                             <div class="row">
-                                <div class="col-xl-12">
+                                <div class="col-sm-8">
                                     <div class="card">
                                         <div class="card-header">
                                             <h5>Edit Donor - {{sponsor}}</h5>
@@ -25,7 +25,7 @@
                                         <div class="card-block">
                                             <div class="">
                                                 
-                                                <form action="{{sponsor.id}}" method="POST">
+                                                <form action="{{sponsor.id}}" method="POST" class="col-sm-8">
                                                     {% csrf_token %}
 
                                                     {% for field in form %}

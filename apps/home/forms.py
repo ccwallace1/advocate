@@ -5,7 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django import forms
 from django.forms import ModelForm, TextInput, DateInput, NumberInput, Select, Textarea, EmailInput
-from .models import Donation, Group, Donor, Beneficiary, SponsorshipType, Sponsorship
+from .models import Donation, Group, Donor, Beneficiary, SponsorshipType, Sponsorship, PAYMENT_CHOICES
 
 
 class DonorForm(ModelForm):
@@ -14,11 +14,11 @@ class DonorForm(ModelForm):
         fields = "__all__"
 
     name            = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name', 'class':'form-control'}))
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), widget=forms.Select(attrs={'class': 'custom-select'}))
-    email           = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder':'Email', 'class':'form-control', 'type':'email'}))
-    address         = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Address', 'class':'form-control .'}))
-    phone           = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Phone', 'class':'form-control'}))
-    date_of_birth   = forms.DateField(widget=forms.DateInput(attrs={'placeholder': 'Date of Birth', 'class':'form-control', 'type':'date'}))
+    group           = forms.ModelChoiceField(required=False, queryset=Group.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+    email           = forms.EmailField(required=False, widget=forms.EmailInput(attrs={'placeholder':'Email', 'class':'form-control', 'type':'email'}))
+    address         = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Address', 'class':'form-control .'}))
+    phone           = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Phone', 'class':'form-control'}))
+    date_of_birth   = forms.DateField(required=False, widget=forms.DateInput(attrs={'placeholder': 'Date of Birth', 'class':'form-control', 'type':'date'}))
 
 
     
@@ -27,6 +27,15 @@ class StudentForm(ModelForm):
     class Meta:
         model = Beneficiary
         fields = "__all__"
+
+        
+    name            = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Name', 'class':'form-control'}))
+    email           = forms.EmailField(required=False, widget=forms.EmailInput(attrs={'placeholder':'Email', 'class':'form-control', 'type':'email'}))
+    address         = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Address', 'class':'form-control .'}))
+    phone           = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Phone', 'class':'form-control'}))
+    date_of_birth   = forms.DateField(required=False, widget=forms.DateInput(attrs={'placeholder': 'Date of Birth', 'class':'form-control', 'type':'date'}))
+    enroll_date     = forms.DateField(required=False, widget=forms.DateInput(attrs={'placeholder': 'Date of Birth', 'class':'form-control', 'type':'date'}))
+
 
 class GroupForm(ModelForm):
     class Meta:
@@ -37,6 +46,14 @@ class DonationForm(ModelForm):
     class Meta:
         model = Donation
         fields = "__all__"
+
+    
+    amount          = forms.DecimalField(widget=forms.NumberInput(attrs={'placeholder': 'Name', 'class':'form-control'}))
+    method          = forms.ChoiceField(choices=PAYMENT_CHOICES, widget=forms.Select(attrs={'placeholder':'Payment Method', 'class':'form-control'}))
+    date            = forms.DateField(widget=forms.DateInput(attrs={'placeholder': 'Date of Donation', 'class':'form-control', 'type':'date'}))
+    donor           = forms.ModelChoiceField(queryset=Donor.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+    group           = forms.ModelChoiceField(required=False, queryset=Group.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+    beneficiary     = forms.ModelChoiceField(required=False, queryset=Beneficiary.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
 
 
 class SponsorshipTypeForm(ModelForm):

@@ -274,6 +274,8 @@ def pages(request):
             else:
                 form = StudentForm()
                 context['form'] = form
+                sponsorships = Sponsorship.objects.all()
+                context['sponsorships'] = sponsorships
 
 
 

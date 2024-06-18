@@ -45,30 +45,46 @@
                                                 <table class="table table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th>ID#</th>
+                                                            <th>Student ID#</th>
+                                                            <th>Sponsored</th>
                                                             <th>Name</th>
-                                                            <th>Sponsor</th>
                                                             <th>Program</th>
                                                             <th>Community</th>
-                                                            <th>Grade</th>
                                                             <th>Enrollment Date</th>
+                                                            <th>DOB</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for student in students %}
-                                                        <tr>
+                                                        <tr id="table-{{student.id}}" style="cursor: pointer;">
                                                             <th scope="row">{{student.id}}</th>
+                                                            {% if student.isSponsored is True %}
+                                                                <td><span class="pcoded-micon"><i
+                                                                class="feather icon-check btn-outline-success"></i></span></td>
+                                                                
+                                                            {%else %}
+                                                                <td><span class="pcoded-micon"><i
+                                                                class="feather icon-x btn-outline-secondary"></i></span></td>
+                                                            {% endif%}
                                                             <td><a href="student/{{student.id}}">{{student.name}}</a></td>
-                                                            {% for s in student.donor_set %}
-                                                                <td>{{s}}</td>
-                                                            {% empty %}
+                                                            
+                                                            {%if student.sponsorshipProgram%}
+                                                                <td>{{student.sponsorshipProgram}}</td>
+                                                            {%else%}
                                                                 <td>-</td>
-                                                            {% endfor %}
-                                                            <td>{{student.program}}</td>
+                                                            {% endif %}
                                                             <td>{{student.community}}</td>
-                                                            <td>{{student.grade}}</td>
                                                             <td>{{student.enroll_date}}</td>
+                                                            <td>{{student.date_of_birth}}</td>
                                                         </tr>
+
+                                                        <script>
+                                                            {% comment %}This is a little jank :/ {% endcomment%}
+                                                            const row{{i.id}} = document.getElementById(`table-{{student.id}}`);
+                                                            row{{i.id}}.addEventListener("click", () => {
+                                                              window.location.href = `/student/{{student.id}}`;
+                                                            });
+                                                          </script>
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>

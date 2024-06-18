@@ -57,14 +57,37 @@ class SponsorshipType(models.Model):
     def __str__(self):
         return self.name
     
+class Community(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
     
 class Beneficiary(Person):
     enroll_date = models.DateField(null=True)
+    community = models.ForeignKey(Community, on_delete=models.SET_NULL, blank=True, null=True)
     #sponsorships = models.ManyToManyField(Sponsorship, blank=True)
     #donations = GenericRelation(Donation, related_query_name='donations')
 
     def __str__(self):
         return self.name
+    
+
+    @property
+    def isSponsored(self):
+        for i in self.sponsorship_set.all():
+            if i.isActive:
+                return True
+        return False
+    
+    @property
+    def sponsorshipProgram(self):
+        for i in self.sponsorship_set.all():
+            if i.isActive:
+                return i.type
+            else:
+                return ""
+    
 class Donor(Person):
     #sponsorships = models.ForeignKey(Sponsorship, on_delete=models.SET_NULL, blank=True, null=True)
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, blank=True, null=True)
@@ -79,7 +102,6 @@ class Donor(Person):
         for i in self.sponsorship_set.all():
             if i.isActive:
                 return True
-    
         return False
     
     
