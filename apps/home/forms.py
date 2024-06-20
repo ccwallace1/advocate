@@ -5,7 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django import forms
 from django.forms import ModelForm, TextInput, DateInput, NumberInput, Select, Textarea, EmailInput
-from .models import Donation, Group, Donor, Beneficiary, SponsorshipType, Sponsorship, PAYMENT_CHOICES
+from .models import Donation, Group, Donor, Beneficiary, SponsorshipType, Sponsorship, PAYMENT_CHOICES, PAYMENT_INTERVALS
 
 
 class DonorForm(ModelForm):
@@ -48,7 +48,7 @@ class DonationForm(ModelForm):
         fields = "__all__"
 
     
-    amount          = forms.DecimalField(widget=forms.NumberInput(attrs={'placeholder': 'Name', 'class':'form-control'}))
+    amount          = forms.DecimalField(widget=forms.NumberInput(attrs={'placeholder': 'Amount', 'class':'form-control'}))
     method          = forms.ChoiceField(choices=PAYMENT_CHOICES, widget=forms.Select(attrs={'placeholder':'Payment Method', 'class':'form-control'}))
     date            = forms.DateField(widget=forms.DateInput(attrs={'placeholder': 'Date of Donation', 'class':'form-control', 'type':'date'}))
     donor           = forms.ModelChoiceField(queryset=Donor.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
@@ -65,3 +65,12 @@ class SponsorshipForm(ModelForm):
     class Meta:
         model = Sponsorship
         fields = "__all__"
+
+    type            = forms.ModelChoiceField(queryset=SponsorshipType.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+    isActive        = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-label'}))
+    begin_date       = forms.DateField(widget=forms.DateInput(attrs={'placeholder':'Start date of sponsorship', 'class':'form-control', 'type':'date'}))
+    end_date       = forms.DateField(widget=forms.DateInput(attrs={'placeholder':'Start date of sponsorship', 'class':'form-control', 'type':'date'}))
+    payment_interval = forms.ChoiceField(choices=PAYMENT_INTERVALS, widget=forms.Select(attrs={'placeholder':'Payment Method', 'class':'form-control'}))
+    additional_cost = forms.DecimalField(widget=forms.NumberInput(attrs={'placeholder':'extra cost', 'class':'form-control'}))
+    sponsor = forms.ModelChoiceField(queryset=Donor.objects.all(),widget=forms.Select(attrs={'class': 'form-control'}))
+    beneficiary = forms.ModelChoiceField(queryset=Beneficiary.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))

@@ -115,8 +115,7 @@ class Sponsorship(models.Model):
     sponsor = models.ForeignKey(Donor, on_delete=models.CASCADE, null=True)
     beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE)
     # TODO: add status field?
-    def __str__(self):
-        return self.beneficiary.name
+    
 
 
 

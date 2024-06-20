@@ -62,17 +62,11 @@
                                                                 <th scope="row">{{i.id}}</th>
                                                                 <td>{{i.isActive}}</td>
                                                                 <td>{{i.begin_date}}</td>
-                                                                {% if i.sponsor.all %}    
-                                                                  {% for d in i.sponsor.all %}
-                                                                    <td>{{ d }}</td>
-                                                                  {% endfor%}
+                                                                {%if i.sponsor %} 
+                                                                  <td>{{i.sponsor}}</td>
                                                                 {% else %}
-                                                                    <td> - </td>
-                                                                {%endif%}
-                                                                
-                                                                
-                                                                  
-                                                                
+                                                                  <td> - </td>
+                                                                {% endif %}
 
                                                                 <td>{{ i.beneficiary }}</td>
 

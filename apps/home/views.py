@@ -431,10 +431,13 @@ def Sponsorship_Detail(request, id):
     else:
         initial_data = {
             'type':sponsorship.type,
+            'isActive': sponsorship.isActive,
             'begin_date':sponsorship.begin_date,
             'end_date':sponsorship.end_date,
             'payment_interval':sponsorship.payment_interval,
-            'additional_cost':sponsorship.additional_cost
+            'additional_cost':sponsorship.additional_cost,
+            'sponsor':sponsorship.sponsor,
+            'beneficiary': sponsorship.beneficiary
         }
         sponsorshipForm = SponsorshipForm(instance=sponsorship, initial=initial_data)
 
