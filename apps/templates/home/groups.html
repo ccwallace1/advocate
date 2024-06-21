@@ -53,13 +53,20 @@
                                                     </thead>
                                                     <tbody>
                                                         {% for i in churches %}
-                                                        <tr>
+                                                        <tr id="table-{{i.id}}" style="cursor: pointer;">
                                                             <th scope="row">{{i.id}}</th>
                                                             <td><a href="group/{{i.id}}">{{i.name}}</a></td>
                                                             <td>{{i.address}}</td>
                                                             <td>{{i.email}}</td>
                                                             <td>{{i.phone}}</td>
                                                         </tr>
+                                                        <script>
+                                                            {% comment %}This is a little jank :/ {% endcomment%}
+                                                            const row{{i.id}} = document.getElementById(`table-{{i.id}}`);
+                                                            row{{i.id}}.addEventListener("click", () => {
+                                                              window.location.href = `/group/{{i.id}}`;
+                                                            });
+                                                        </script>
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>

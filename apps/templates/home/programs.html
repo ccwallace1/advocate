@@ -44,27 +44,26 @@
                                                 <table class="table table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th>#</th>
+                                                            <th>Program ID</th>
                                                             <th>Name</th>
-                                                            <th>Type</th>
                                                             <th>Cost</th>
-                                                            <th>Description</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         {% for i in projects %}
-                                                        <tr>
+                                                        <tr id="table-{{i.id}}" style="cursor: pointer;">
                                                             <th scope="row">{{i.id}}</th>
                                                             <td><a href="program/{{i.id}}">{{i.name}}</a></td>
-                                                            <td>{{i.type}}</td>
                                                             <td>${{i.cost}}</td>
-
-                                                            {% if i.description == '' %}
-                                                                <td>-</td>
-                                                            {% else %}
-                                                                <td>{{i.description}}</td>
-                                                            {% endif %}
                                                         </tr>
+
+                                                        <script>
+                                                            {% comment %}This is a little jank :/ {% endcomment%}
+                                                            const row{{i.id}} = document.getElementById(`table-{{i.id}}`);
+                                                            row{{i.id}}.addEventListener("click", () => {
+                                                              window.location.href = `/program/{{i.id}}`;
+                                                            });
+                                                          </script>
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>

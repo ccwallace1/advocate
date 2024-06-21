@@ -42,6 +42,11 @@ class GroupForm(ModelForm):
         model = Group
         fields = "__all__"
 
+    name    = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Name', 'class':'form-control'}))
+    email   = forms.EmailField(required=False, widget=forms.EmailInput(attrs={'placeholder':'Email', 'class':'form-control', 'type':'email'}))
+    address = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Address', 'class':'form-control .'}))
+    phone   = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Phone', 'class':'form-control'}))
+
 class DonationForm(ModelForm):
     class Meta:
         model = Donation
@@ -61,16 +66,21 @@ class SponsorshipTypeForm(ModelForm):
         model = SponsorshipType
         fields = "__all__"
 
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Program Name', 'class':'form-control'}))
+    cost = forms.DecimalField(widget=forms.NumberInput(attrs={'placeholder':'Base program cost', 'class':'form-control'}))
+
 class SponsorshipForm(ModelForm):
     class Meta:
         model = Sponsorship
         fields = "__all__"
 
-    type            = forms.ModelChoiceField(queryset=SponsorshipType.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
-    isActive        = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-label'}))
+    isActive         = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'form-check-label'}))
+    isActive.label   = "Active?"
+    type             = forms.ModelChoiceField(queryset=SponsorshipType.objects.all(), widget=forms.Select(attrs={'placeholder':'Program','class': 'form-control'}))
+    type.label       = "Program"
     begin_date       = forms.DateField(widget=forms.DateInput(attrs={'placeholder':'Start date of sponsorship', 'class':'form-control', 'type':'date'}))
-    end_date       = forms.DateField(widget=forms.DateInput(attrs={'placeholder':'Start date of sponsorship', 'class':'form-control', 'type':'date'}))
+    end_date         = forms.DateField(widget=forms.DateInput(attrs={'placeholder':'Start date of sponsorship', 'class':'form-control', 'type':'date'}))
     payment_interval = forms.ChoiceField(choices=PAYMENT_INTERVALS, widget=forms.Select(attrs={'placeholder':'Payment Method', 'class':'form-control'}))
-    additional_cost = forms.DecimalField(widget=forms.NumberInput(attrs={'placeholder':'extra cost', 'class':'form-control'}))
-    sponsor = forms.ModelChoiceField(queryset=Donor.objects.all(),widget=forms.Select(attrs={'class': 'form-control'}))
-    beneficiary = forms.ModelChoiceField(queryset=Beneficiary.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+    additional_cost  = forms.DecimalField(widget=forms.NumberInput(attrs={'placeholder':'Is there any extra cost?', 'class':'form-control'}))
+    sponsor          = forms.ModelChoiceField(queryset=Donor.objects.all(),widget=forms.Select(attrs={'class': 'form-control'}))
+    beneficiary      = forms.ModelChoiceField(queryset=Beneficiary.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))

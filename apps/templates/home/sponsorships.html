@@ -58,7 +58,7 @@
                                                     <tbody>
                                                         {% for i in sponsorships %}
 
-                                                            <tr>
+                                                        <tr id="table-{{i.id}}" style="cursor: pointer;">
                                                                 <th scope="row">{{i.id}}</th>
                                                                 <td>{{i.isActive}}</td>
                                                                 <td>{{i.begin_date}}</td>
@@ -86,6 +86,13 @@
                                                                     </a>
                                                                 </td>
                                                             </tr>
+                                                            <script>
+                                                              {% comment %}This is a little jank :/ {% endcomment%}
+                                                              const row{{i.id}} = document.getElementById(`table-{{i.id}}`);
+                                                              row{{i.id}}.addEventListener("click", () => {
+                                                                window.location.href = `/sponsorship/{{i.id}}`;
+                                                              });
+                                                            </script>
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>

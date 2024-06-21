@@ -57,7 +57,7 @@
                                                     <tbody>
                                                         {% for i in donations %}
                                                             
-                                                            <tr>
+                                                        <tr id="table-{{i.id}}" style="cursor: pointer;">
                                                                 <th scope="row">{{i.id}}</th>
                                                                 <td>
                                                                     {% if i.donor and i.group %}
@@ -80,6 +80,13 @@
                                                                     </a>
                                                                 </td>
                                                             </tr>
+                                                            <script>
+                                                                {% comment %}This is a little jank :/ {% endcomment%}
+                                                                const row{{i.id}} = document.getElementById(`table-{{i.id}}`);
+                                                                row{{i.id}}.addEventListener("click", () => {
+                                                                  window.location.href = `/donation/{{i.id}}`;
+                                                                });
+                                                              </script>
                                                         {% endfor %}
                                                     </tbody>
                                                 </table>

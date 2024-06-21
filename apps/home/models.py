@@ -106,19 +106,16 @@ class Donor(Person):
     
     
 class Sponsorship(models.Model):
-    type = models.ForeignKey(SponsorshipType, on_delete=models.SET_NULL, null=True)
     isActive = models.BooleanField()
+    type = models.ForeignKey(SponsorshipType, on_delete=models.SET_NULL, null=True)
     begin_date = models.DateField(blank=True)
     end_date = models.DateField(blank=True, null=True)
     payment_interval = models.IntegerField(choices=PAYMENT_INTERVALS, default='Monthly')
     additional_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     sponsor = models.ForeignKey(Donor, on_delete=models.CASCADE, null=True)
     beneficiary = models.ForeignKey(Beneficiary, on_delete=models.CASCADE)
-    # TODO: add status field?
     
-
-
-
+    
 class Donation(models.Model):
     date = models.CharField(default="", max_length=255)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
