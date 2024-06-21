@@ -216,7 +216,7 @@ def pages(request):
                 # How much should they have?
                 funded_thru = datetime.now().date()
                 months_to_be_funded = diff_month(funded_thru, sponsorship.beneficiary.enroll_date)
-                expected_amount = sponsorship.total_cost * months_to_be_funded
+                expected_amount = sponsorship.type.cost * months_to_be_funded
 
 
                 #need donor under/overfunded?
@@ -245,7 +245,7 @@ def pages(request):
                 # How much should they have?
                 funded_thru = datetime.now().date()
                 months_to_be_funded = diff_month(funded_thru, sponsorship.beneficiary.enroll_date)
-                expected_amount = sponsorship.total_cost * months_to_be_funded
+                expected_amount = sponsorship.type.cost * months_to_be_funded
 
 
                 # How much do they actually have?

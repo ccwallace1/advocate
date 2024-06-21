@@ -35,6 +35,7 @@ class StudentForm(ModelForm):
     phone           = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Phone', 'class':'form-control'}))
     date_of_birth   = forms.DateField(required=False, widget=forms.DateInput(attrs={'placeholder': 'Date of Birth', 'class':'form-control', 'type':'date'}))
     enroll_date     = forms.DateField(required=False, widget=forms.DateInput(attrs={'placeholder': 'Date of Birth', 'class':'form-control', 'type':'date'}))
+    community       = forms.ModelChoiceField(required=False, queryset=Community.objects.all(), widget=forms.Select(attrs={'class':'form-control'}))
 
 
 class GroupForm(ModelForm):
@@ -56,9 +57,17 @@ class DonationForm(ModelForm):
     amount          = forms.DecimalField(widget=forms.NumberInput(attrs={'placeholder': 'Amount', 'class':'form-control'}))
     method          = forms.ChoiceField(choices=PAYMENT_CHOICES, widget=forms.Select(attrs={'placeholder':'Payment Method', 'class':'form-control'}))
     date            = forms.DateField(widget=forms.DateInput(attrs={'placeholder': 'Date of Donation', 'class':'form-control', 'type':'date'}))
-    donor           = forms.ModelChoiceField(queryset=Donor.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+    donor           = forms.ModelChoiceField(required=False, queryset=Donor.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
     group           = forms.ModelChoiceField(required=False, queryset=Group.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
     beneficiary     = forms.ModelChoiceField(required=False, queryset=Beneficiary.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if not self.cleaned_data['donor'] and not self.cleaned_data['group']:
+            raise forms.ValidationError("Specify at least a donor or a group for this donation.")
+        else:
+            return cleaned_data
+
 
 
 class SponsorshipTypeForm(ModelForm):
