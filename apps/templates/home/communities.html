@@ -1,0 +1,173 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Students {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <section class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h5 class="m-b-10">Communities</h5>
+                                    </div>
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="#!">Communities</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">All Communities</a></li>
+                                    </ul>
+                                    
+                                    <button type="button" class="btn btn-primary" title="" data-toggle="modal" data-original-title="Add a community" data-target="#communityModal" aria-describedby="Add a community to the system.">Add Community</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <!-- [ Hover-table ] start -->
+                                <div class="col-xl-12">
+                                    <div class="card">
+                                        <div class="card-block table-border-style">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Community ID#</th>
+                                                            <th>Name</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for i in communities %}
+                                                        <tr id="table-{{i.id}}" style="cursor: pointer;">
+                                                            <th scope="row"><a href='communities/{{i.id}}'>{{i.id}}</a></th>
+                                                            
+                                                            <td>{{i.name}}</td>
+                                                            
+                                                        </tr>
+
+                                                        <script>
+                                                            {% comment %}This is a little jank :/ {% endcomment%}
+                                                            const row{{i.id}} = document.getElementById(`table-{{i.id}}`);
+                                                            row{{i.id}}.addEventListener("click", () => {
+                                                              window.location.href = `/community/{{i.id}}`;
+                                                            });
+                                                          </script>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- [ Hover-table ] end -->
+                            </div>
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                {% comment %} Payment Modal {% endcomment %}
+                <div class="modal fade" id="communityModal" tabindex="-1" role="dialog" aria-labelledby="studentModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="paymentModalLabel">Add Community</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <table>
+                                    {{form.as_table}}
+                                </table>
+                                <input type="submit" value="Submit" class="btn btn-primary">
+                            </form>
+                          {% comment %} <form role="form" method="post" action="">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="addPaymentSponsor">Sponsor</label>
+                                <input type="text" class="form-control" id="addPaymentSponsor" aria-describedby="emailHelp" placeholder="Start typing the sponsor's name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addPaymentMethod">Method</label>
+                                <select class="form-control" id="addPaymentMethod" required>
+                                    <option>Check</option>
+                                    <option>Online</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="addPaymentCheckNum">Check #</label>
+                                <input type="number" class="form-control" id="addPaymentCheckNum" aria-describedby="emailHelp" placeholder="Required if payment is by check">
+                            </div>
+                            <div class="form-group">
+                                <label for="addPaymentAmount">Amount</label>
+                                <input type="number" min="0.01" step="0.01" class="form-control" id="addPaymentAmount" placeholder="Enter amount" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addPaymentDate">Date</label>
+                                <input type="date" class="form-control" id="addPaymentDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="addPaymentPurpose">Purpose</label>
+                                <input type="text" class="form-control" id="addPaymentPurpose" placeholder="What was the payment for?" required>
+                            </div>
+                          </form> {% endcomment %}
+                        </div>
+                        <div class="modal-footer">
+                          {% comment %} <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Save</button> {% endcomment %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="importStudents" tabindex="-1" role="dialog" aria-labelledby="importStudents" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="importStudents">Import Student Records</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <form action="students/upload" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                              <label for="payment-import-file-name" class="col-form-label">Choose a file:</label>
+                              <input type="file" name="doc" class="form-control" id="payment-import-file">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Begin Import</button>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    </section>
+    <!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

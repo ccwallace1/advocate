@@ -58,6 +58,9 @@
                                                                 {% elif r|get_type == "Beneficiary"%}
                                                                 <td><a href="../student/{{r.id}}">{{r.name}} </a> (Student)</td>
                                                                 
+                                                                {% elif r|get_type == "Community"%}
+                                                                <td><a href="../community/{{r.id}}">{{r.name}} </a> (Community)</td>
+                                                                
                                                                 {% elif r|get_type == "Program"%}
                                                                 <td><a href="../program/{{r.id}}">{{r.name}}</a> (Program)</td>
                                                                 

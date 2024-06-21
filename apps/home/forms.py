@@ -5,7 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django import forms
 from django.forms import ModelForm, TextInput, DateInput, NumberInput, Select, Textarea, EmailInput
-from .models import Donation, Group, Donor, Beneficiary, SponsorshipType, Sponsorship, PAYMENT_CHOICES, PAYMENT_INTERVALS
+from .models import Donation, Group, Donor, Beneficiary, SponsorshipType, Sponsorship, Community, PAYMENT_CHOICES, PAYMENT_INTERVALS
 
 
 class DonorForm(ModelForm):
@@ -84,3 +84,10 @@ class SponsorshipForm(ModelForm):
     additional_cost  = forms.DecimalField(widget=forms.NumberInput(attrs={'placeholder':'Is there any extra cost?', 'class':'form-control'}))
     sponsor          = forms.ModelChoiceField(queryset=Donor.objects.all(),widget=forms.Select(attrs={'class': 'form-control'}))
     beneficiary      = forms.ModelChoiceField(queryset=Beneficiary.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
+
+class CommunityForm(ModelForm):
+    class Meta:
+        model = Community
+        fields = "__all__"
+
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Community Name', 'class':'form-control'}))

@@ -8,9 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.core.paginator import Paginator
-from .forms import DonationForm, GroupForm, DonorForm, StudentForm, SponsorshipTypeForm, SponsorshipForm
+from .forms import DonationForm, GroupForm, DonorForm, StudentForm, SponsorshipTypeForm, SponsorshipForm, CommunityForm 
 from django.urls import reverse, reverse_lazy
-from .models import Donation, Beneficiary, Group, Donor, SponsorshipType, Sponsorship
+from .models import Donation, Beneficiary, Group, Donor, SponsorshipType, Sponsorship, Community
 from django.shortcuts import get_object_or_404, render, redirect
 from funky_sheets.formsets import HotView
 from django.forms import CheckboxSelectMultiple, CheckboxInput, DateInput
@@ -161,11 +161,13 @@ def pages(request):
     students = Beneficiary.objects.all()
     donors = Donor.objects.all()
     paymentForm = DonationForm()
+    communities = Community.objects.all()
 
 
     projects = SponsorshipType.objects.all()
     churches = Group.objects.all()
     context = {'students':students,
+               'communities':communities,
                'donations':pays,
                'donors':donors,
                'projects':projects,
@@ -190,11 +192,12 @@ def pages(request):
 
                 resultsDonors = Donor.objects.filter(name__contains=searchText)
                 resultsStudents = Beneficiary.objects.filter(name__contains=searchText)
+                resultsCommunity = Community.objects.filter(name__contains=searchText)
                 resultsPaymentsDonor = Donation.objects.filter(donor__name__contains=searchText)
                 resultsPaymentsStudent = Donation.objects.filter(beneficiary__name__contains=searchText)
                 resultsPrograms = SponsorshipType.objects.filter(name__contains=searchText)
                 resultsGroups = Group.objects.filter(name__contains=searchText)
-                results = chain(resultsDonors, resultsStudents, resultsPrograms, resultsGroups, resultsPaymentsDonor, resultsPaymentsStudent)
+                results = chain(resultsDonors, resultsStudents, resultsPrograms, resultsGroups, resultsPaymentsDonor, resultsPaymentsStudent, resultsCommunity)
 
                 context['results'] = results
                 context['searchTerm'] = searchText
@@ -276,6 +279,17 @@ def pages(request):
                 context['form'] = form
                 sponsorships = Sponsorship.objects.all()
                 context['sponsorships'] = sponsorships
+        
+        if load_template == 'communities.html':
+            form = CommunityForm(request.POST)
+            if form.is_valid():
+                community = form.save(commit=False)
+                community.save()
+
+                return HttpResponseRedirect('communities.html')
+            else:
+                form = CommunityForm()
+                context['form'] = form
 
 
 
@@ -473,6 +487,24 @@ def Student_Detail(request, id):
         'form': form,
     }
     return HttpResponse(template.render(context, request))
+@login_required(login_url="/login/")
+def Community_Detail(request, id):
+    community = Community.objects.get(id=id)
+    template = loader.get_template('home/community.html')
+    
+    if request.method == 'POST':
+        form = CommunityForm(request.POST, instance=community)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('../communities.html')
+    else:
+        form = CommunityForm(instance=community)
+
+    context = {
+        'community':community,
+        'form': form,
+    }
+    return HttpResponse(template.render(context, request))
 
 @login_required(login_url="/login/")
 def Program_Detail(request, id):
@@ -584,6 +616,11 @@ def Student_Delete(request, id):
     student = Beneficiary.objects.get(pk=id)
     student.delete()
     return HttpResponseRedirect("../../students.html")
+
+def Community_Delete(request, id):
+    community = Community.objects.get(pk=id)
+    community.delete()
+    return HttpResponseRedirect("../../communities.html")
 
 def Group_Delete(request, id):
     group = Group.objects.get(pk=id)
