@@ -54,8 +54,8 @@
                                                     <tbody>
                                                         {% for i in churches %}
                                                         <tr id="table-{{i.id}}" style="cursor: pointer;">
-                                                            <th scope="row">{{i.id}}</th>
-                                                            <td><a href="group/{{i.id}}">{{i.name}}</a></td>
+                                                            <th scope="row"><a href='group/{{i.id}}'>{{i.id}}</a></th>
+                                                            <td>{{i.name}}</td>
                                                             <td>{{i.address}}</td>
                                                             <td>{{i.email}}</td>
                                                             <td>{{i.phone}}</td>

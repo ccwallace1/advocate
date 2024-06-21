@@ -57,7 +57,7 @@
                                                     <tbody>
                                                         {% for student in students %}
                                                         <tr id="table-{{student.id}}" style="cursor: pointer;">
-                                                            <th scope="row">{{student.id}}</th>
+                                                            <th scope="row"><a href='student/{{student.id}}'>{{student.id}}</a></th>
                                                             {% if student.isSponsored is True %}
                                                                 <td><span class="pcoded-micon"><i
                                                                 class="feather icon-check btn-outline-success"></i></span></td>

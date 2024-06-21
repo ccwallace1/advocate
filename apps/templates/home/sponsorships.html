@@ -59,7 +59,7 @@
                                                         {% for i in sponsorships %}
 
                                                         <tr id="table-{{i.id}}" style="cursor: pointer;">
-                                                                <th scope="row">{{i.id}}</th>
+                                                          <th scope="row"><a href='sponsorship/{{i.id}}'>{{i.id}}</a></th>
                                                                 <td>{{i.isActive}}</td>
                                                                 <td>{{i.begin_date}}</td>
                                                                 {%if i.sponsor %} 
@@ -80,11 +80,6 @@
                                                                   <td>Yearly</td>
                                                                 {%endif%}
                                                                 <td>${{i.additional_cost}}</td>
-                                                                <td>
-                                                                    <a href="sponsorship/{{i.id}}">
-                                                                        <button type="button" class="btn btn-sqaure btn-outline-primary f-10 feather icon-edit"></button>
-                                                                    </a>
-                                                                </td>
                                                             </tr>
                                                             <script>
                                                               {% comment %}This is a little jank :/ {% endcomment%}

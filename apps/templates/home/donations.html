@@ -58,7 +58,7 @@
                                                         {% for i in donations %}
                                                             
                                                         <tr id="table-{{i.id}}" style="cursor: pointer;">
-                                                                <th scope="row">{{i.id}}</th>
+                                                                <th scope="row"><a href='donation/{{i.id}}'>{{i.id}}</a></th>
                                                                 <td>
                                                                     {% if i.donor and i.group %}
                                                                         {{i.donor}} ({{i.group}})
@@ -74,11 +74,7 @@
                                                                 <td>{{i.method}}</td>
                                                                 <td>{{i.amount}}</td>
                                                                 <td>{{i.date}}</td>
-                                                                <td>
-                                                                    <a href="donation/{{i.id}}">
-                                                                        <button type="button" class="btn btn-sqaure btn-outline-primary f-10 feather icon-edit"></button>
-                                                                    </a>
-                                                                </td>
+                                                                
                                                             </tr>
                                                             <script>
                                                                 {% comment %}This is a little jank :/ {% endcomment%}

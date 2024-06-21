@@ -62,7 +62,7 @@
                                                             <div id="donors">
                                                                 {% for i in donors %}
                                                                 <tr id="table-{{i.id}}" style="cursor: pointer;">
-                                                                    <th scope="row">{{i.id}}</th>
+                                                                  <th scope="row"><a href='sponsor/{{i.id}}'>{{i.id}}</a></th>
 
                                                                     {% if i.isSponsor is True %}
                                                                       <td><span class="pcoded-micon"><i
